@@ -1,54 +1,16 @@
-function ready(fn) {
-    if(document.attachEvent ? document.readyState === 'complete' : document.readyState !== 'loading') {
-        fn();
-    } else {
-        document.addEventListener('DOMContentLoaded', fn);
-    }
-}
-
-ready(function() {
-    // pick(50);
-    getJSON('get', 'js/win.json');
-});
-
-function getJSON(method, url){
-    var request = new XMLHttpRequest();
-    request.open(method, url, true);
-    request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-            // Success!
-            var data = JSON.parse(request.responseText);
-            for(var i=0; i<data.length;i++){
-                console.log(data[i]);
-            } 
-        } else {
-            // We reached our target server, but it returned an error
-        }
-    };
-    request.onerror = function() {
-        // There was a connection error of some sort
-    };
-    request.send();
-}
-
-function pick(count) {
-    for(var i=0; i<count; i++){
-        var n = randomNumber.getPickNumber(); 
-        console.log(n);
-    } 
-}
-
+var winList;
 var randomNumber = {
     min : 1,
     max : 46,
     index : 0,
     numberStore : [],
-    size : 7, 
+    size : 6, 
     pickNumber : function() {
         return Math.floor(Math.random() * (this.max - this.min)) + this.min;
     },
-    makeNumber : function() {
+    makeNumbers : function() {
         var num = this.pickNumber();
+
         if(-1 === this.numberStore.indexOf(num)){
             this.numberStore[this.index++] = num;
         }
@@ -60,16 +22,56 @@ var randomNumber = {
             return this;
         }
 
-        this.makeNumber();
+        this.makeNumbers();
     },
-    getPickNumber : function() {
+    getPickNumbers : function() {
         this.clear();
-        this.makeNumber();
-        return this.numberStore;
+        this.makeNumbers();
+        return {
+            number  : this.numberStore,
+            winNums : [] 
+        };
     },
     clear : function() {
         this.numberStore = [];
         this.index = 0;
     }
+}
 
+ready(function() {
+    getJSON('get', 'js/win.json', function(data){
+        winList = data;
+    });
+});
+
+function ready(fn) {
+    if(document.attachEvent ? document.readyState === 'complete' : document.readyState !== 'loading') {
+        fn();
+    } else {
+        document.addEventListener('DOMContentLoaded', fn);
+    }
+}
+
+function getJSON(method, url, callback){
+    var request = new XMLHttpRequest();
+    request.open(method, url, true);
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            callback(data); 
+        } 
+    };
+    request.onerror = function() {
+        // There was a connection error of some sort
+    };
+    request.send();
+}
+
+function pick(count) {
+    var result = []; 
+    for(var i=0; i<count; i++){
+        result[i] = randomNumber.getPickNumbers(); 
+    } 
+    return result;
 }
