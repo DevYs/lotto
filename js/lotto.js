@@ -47,8 +47,15 @@ ready(function() {
 
 function start() {
     var pick = randomNumber.getPickNumbers();
+    // var pickList = pick(1); 
     var win = winList[34];
+    // for(var wi=0; wi<winList.length; wi++){
+    //     for(var pi=0; pi<pickList.length; pi++){
+
+    //     }
+    // } 
     compare(pick, win);
+    console.log(win);
 }
 
 function compare(pick, win) {
@@ -58,9 +65,13 @@ function compare(pick, win) {
         for(var wi=0; wi<winNumbers.length; wi++){
             var pickNum = pickNumbers[pi];
             var winNum = winNumbers[wi];
-            console.log(pickNum + ' ' + winNum);
+            
+            if(pickNum === winNum){
+                pick.winNums.push(pickNum);
+            }
         }
-    }    
+    }   
+    win.pick = pick; 
 }
 
 function ready(fn) {
