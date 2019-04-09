@@ -1,12 +1,12 @@
 var winList;
 var randomNumber = {
     min : 1,
-    max : 46,
+    max : 45,
     index : 0,
     numberStore : [],
     size : 6, 
     pickNumber : function() {
-        return Math.floor(Math.random() * (this.max - this.min)) + this.min;
+        return Math.floor(Math.random() * ((this.max + 1) - this.min)) + this.min;
     },
     makeNumbers : function() {
         var num = this.pickNumber();
@@ -41,8 +41,27 @@ var randomNumber = {
 ready(function() {
     getJSON('get', 'js/win.json', function(data){
         winList = data;
+        start(); 
     });
 });
+
+function start() {
+    var pick = randomNumber.getPickNumbers();
+    var win = winList[34];
+    compare(pick, win);
+}
+
+function compare(pick, win) {
+    var pickNumbers = pick.number;
+    var winNumbers = win.winNums; 
+    for(var pi=0; pi<pickNumbers.length; pi++){
+        for(var wi=0; wi<winNumbers.length; wi++){
+            var pickNum = pickNumbers[pi];
+            var winNum = winNumbers[wi];
+            console.log(pickNum + ' ' + winNum);
+        }
+    }    
+}
 
 function ready(fn) {
     if(document.attachEvent ? document.readyState === 'complete' : document.readyState !== 'loading') {
