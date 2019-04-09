@@ -8,7 +8,7 @@ function ready(fn) {
 
 ready(function() {
     // pick(50);
-    getJSON('get', '/js/win.json');
+    getJSON('get', 'js/win.json');
 });
 
 function getJSON(method, url){
