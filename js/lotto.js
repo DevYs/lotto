@@ -1,3 +1,5 @@
+var MAX_SIZE = 100;
+var MAX_SIZE_EXCESS_MSG = '1회당 구매할 수 있는 최대한도는 ' + MAX_SIZE +'장입니다.';
 var winList;
 var randomNumber = {
     min : 1,
@@ -28,7 +30,7 @@ var randomNumber = {
         this.clear();
         this.makeNumbers();
         return {
-            number  : this.numberStore,
+            numbers  : this.numberStore,
             winNums : [] 
         };
     },
@@ -41,37 +43,56 @@ var randomNumber = {
 ready(function() {
     getJSON('get', 'js/win.json', function(data){
         winList = data;
-        start(); 
+    });
+    
+    var button = document.querySelector('button');
+    button.addEventListener('click', function(){
+        var pickSize = document.querySelector('#pickSize').value;
+        if(MAX_SIZE < pickSize){
+            alert(MAX_SIZE_EXCESS_MSG); 
+        } 
+        start(pickSize);
     });
 });
 
-function start() {
-    var pick = randomNumber.getPickNumbers();
-    // var pickList = pick(1); 
-    var win = winList[34];
-    // for(var wi=0; wi<winList.length; wi++){
-    //     for(var pi=0; pi<pickList.length; pi++){
+function start(pickSize) {
+    for(var wi=0; wi<winList.length; wi++){
+        var pickList = pick(pickSize);
+        winList[wi].pickList = [];
+        for(var pi=0; pi<pickList.length; pi++){
+            compare(pickList[pi], winList[wi]);
+        }
+    }
+    print(); 
+}
 
-    //     }
-    // } 
-    compare(pick, win);
-    console.log(win);
+function print(){
+    for(var i=0; i<winList.length; i++){
+        console.log(winList[i]); 
+    } 
+    // document.querySelector('.print').textContent = winList; 
 }
 
 function compare(pick, win) {
-    var pickNumbers = pick.number;
+    var pickNumbers = pick.numbers;
     var winNumbers = win.winNums; 
+    pick.winNums = [];
+    
     for(var pi=0; pi<pickNumbers.length; pi++){
         for(var wi=0; wi<winNumbers.length; wi++){
             var pickNum = pickNumbers[pi];
             var winNum = winNumbers[wi];
-            
             if(pickNum === winNum){
                 pick.winNums.push(pickNum);
             }
         }
-    }   
-    win.pick = pick; 
+         
+    } 
+
+    // if(0 < pick.winNums.length){
+        win.pickList.push(pick);
+    // }
+    
 }
 
 function ready(fn) {
