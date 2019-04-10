@@ -1,8 +1,19 @@
+// pick 최대 사이즈
 var MAX_SIZE = 100;
+
+// pick 최대 사이즈를 초과한 값을 입력할 경우 메세지
 var MAX_SIZE_EXCESS_MSG = '1회당 구매한도는 ' + MAX_SIZE + '장입니다.';
+
+// 미입력시 메세지
 var SIZE_ZERO_MSG = '숫자를 입력하세요.';
+
+// 1~45의 번호가 몇번이나 매칭됐는지 카운팅
 var countWin = [];
+
+// 역대 당첨번호 목록 정보
 var winList;
+
+// 자동 번호 뽑기 도구
 var randomNumber = {
     min : 1,
     max : 45,
@@ -43,11 +54,15 @@ var randomNumber = {
     }
 }
 
+// 역대 당첨번호 로드 후 이벤트 정의
 ready(function() {
+    
+    // 역대 당첨번호 로드 
     getJSON('get', 'js/win.json', function(data){
         winList = data;
     });
 
+    // 버튼 이벤트
     var button = document.querySelector('button');
     button.addEventListener('click', function() {
         var pickSize = document.querySelector('#pickSize').value;
@@ -64,6 +79,7 @@ ready(function() {
     });
 });
 
+// 1~45 매칭 횟수 초기화
 function initCountWin() {
     countWin.length = 45; 
     for(var i=0; i<countWin.length; i++){
@@ -71,6 +87,7 @@ function initCountWin() {
     }
 }
 
+// 시작
 function start(pickSize) {
     initCountWin();
 
@@ -88,6 +105,7 @@ function start(pickSize) {
     print(); 
 }
 
+// 결과 출력
 function print(){
     for(var i=winList.length-1; i>=0; i--) {
         var round = winList[i].round;
@@ -97,6 +115,7 @@ function print(){
     }
 }
 
+// 1~45 매칭 횟수 상위 6개만 남기고 절삭 후 번호 순서대로 정렬 
 function sortCountWin(){
     countWin.sort(function(a, b){
         return b.count - a.count;
@@ -107,6 +126,7 @@ function sortCountWin(){
     });
 }
 
+// 길이가 6인 정수 배열을 문자열로 변환
 function numberString(winNums) {
     var winNumsString = '';
     for(var i=0; i<winNums.length; i++){
@@ -119,6 +139,7 @@ function numberString(winNums) {
     return winNumsString; 
 }
 
+// 길이가 6인 정수배열을 서로 비교하여 매칭되는 숫자를 수집
 function compare(pick, win) {
     var pickNumbers = pick.numbers;
     var winNumbers = win.winNums; 
@@ -158,6 +179,7 @@ function compare(pick, win) {
     win.pickList.push(pick);
 }
 
+// $(document).ready();
 function ready(fn) {
     if(document.attachEvent ? document.readyState === 'complete' : document.readyState !== 'loading') {
         fn();
@@ -166,6 +188,7 @@ function ready(fn) {
     }
 }
 
+// 역대 번호 목록을 로드
 function getJSON(method, url, callback){
     var request = new XMLHttpRequest();
     request.open(method, url, true);
@@ -181,6 +204,7 @@ function getJSON(method, url, callback){
     request.send();
 }
 
+// count만큼 번호생성
 function pick(count) {
     var result = []; 
     for(var i=0; i<count; i++){
@@ -189,6 +213,7 @@ function pick(count) {
     return result;
 }
 
+// 1~9 그린, 10~19 블루, 20~29 레드, 30~39 다크, 40~45 핑크
 function numberColor(num){
     var color = 'black';
     var quotient = Math.floor(num / 10);
