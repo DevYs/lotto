@@ -5,9 +5,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <script src="js/lotto.js"></script> 
+    <link href="css/index.css" rel="stylesheet" type="text/css" />
+    <script src="js/index.js"></script> 
 </head>
 <body>
+  
+    <!-- <h1>만약 당신이 로또를 1회부터 시작했다면?</h1> -->
+
+    <section>
+        <ul class="notice">
+            <li>1회당 100장의 구매제한이 있습니다.</li> 
+        </ul>
+
+        <div class="wrap-input">
+            <input type="text" id="pickSize" placeholder="1 ~ 100" />
+        </div> 
+        
+        <button>확인</button>
+    </section> 
+
+    <section class="wrap-result">
+        <ul class="print">
+            <li>
+                <h2>862회</h2> 
+                <strong>12 22 32 42 52 62</strong> 
+                <p>
+                    <span></span>
+                </p> 
+            </li> 
+        </ul>
+    </section>
+  
 
 
 </body>
