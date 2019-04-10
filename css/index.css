@@ -1,0 +1,18 @@
+@charset 'utf-8';
+
+body{margin:0;}
+ul{list-style:none;}
+
+.green{background-color:#f6a800;color:#fff;}
+.blue{background-color:#777;color:#fff;}
+.red{background-color:#f65064;color:#fff;}
+.dark{background-color:#535869;color:#fff;}
+.pink{background-color:#1acb97;color:#fff;}
+
+h1{background-color:#414141;color:#fff;font-size:3.2vw;height:15vw;line-height:15vw;margin:10vw auto;text-align:center;width:70vw;}
+.wrap-input input{box-sizing:border-box;border:0;background-color:#eee;display:block;font-size:3.2vw;font-weight:700;height:10vw;margin:0 auto;outline:0;padding:2vw;width:60vw;}
+.notice{text-align:center;width:80vw;}
+#pick-size{ }
+
+
+.wrap-result{background-color:#eee;width:100%;}
