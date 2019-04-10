@@ -64,12 +64,16 @@ ready(function() {
     });
 });
 
-function start(pickSize) {
+function initCountWin() {
     countWin.length = 45; 
-  
     for(var i=0; i<countWin.length; i++){
         countWin[i] = {winNum:i + 1, count:0};
-    } 
+    }
+}
+
+function start(pickSize) {
+    initCountWin();
+
     for(var wi=0; wi<winList.length; wi++){
         var pickList = pick(pickSize);
         winList[wi].pickList = [];
@@ -78,14 +82,13 @@ function start(pickSize) {
             compare(pickList[pi], winList[wi]);
         }
     }
+    
+    sortCountWin();  
+   
     print(); 
 }
 
 function print(){
-    sortCountWin();  
-
-    console.log(countWin);
-
     for(var i=winList.length-1; i>=0; i--) {
         var round = winList[i].round;
         var winNumber = numberString(winList[i].winNums);
@@ -98,9 +101,7 @@ function sortCountWin(){
     countWin.sort(function(a, b){
         return b.count - a.count;
     });
-
     countWin.length = 6;
-
     countWin.sort(function(a, b){
         return a.winNum - b.winNum;
     });
@@ -170,7 +171,6 @@ function getJSON(method, url, callback){
     request.open(method, url, true);
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
-            // Success!
             var data = JSON.parse(request.responseText);
             callback(data); 
         } 
@@ -189,7 +189,6 @@ function pick(count) {
     return result;
 }
 
-
 function numberColor(num){
     var color = 'black';
     var quotient = Math.floor(num / 10);
@@ -200,6 +199,5 @@ function numberColor(num){
         case 3 : color = 'dark'; break;
         case 4 : color = 'pink'; break;
     }
-
-    console.log(color);
+    return color;
 }
