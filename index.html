@@ -10,11 +10,13 @@
 </head>
 <body>
   
-    <!-- <h1>만약 당신이 로또를 1회부터 시작했다면?</h1> -->
+    <h1>만약 당신이 로또를 1회부터 구매했다면?</h1>
 
     <section class="draw">
         <ul class="notice">
             <li>1회당 100장의 구매제한이 있습니다.</li> 
+            <li>당첨금액은 실제 당첨금을 기준으로 계산됩니다.</li> 
+            <li>이월된 경우 당첨금액에 계산되지 않습니다.</li> 
         </ul>
 
         <div class="wrap-input">
@@ -24,23 +26,24 @@
         <button>추첨 시작!</button>
 
         <div class="win-info">
-            <p class="total"><span>총 당첨금액</span><strong>100,222,222,000</strong><span>원</span></h2>
-            <p class="best"><span>최고 당첨금액 (<em class="best-round">123</em>회 <em class="best-ranking">0등</em>)</span><strong>100,222,222,000</strong><span>원</span></h2>
-            <p class="pay"><span>총 구입비용</span><strong>100,222,222,000</strong><span>원</span></h2>
+            <p class="total"><span>총 당첨금액</span><strong>0</strong><span> 원</span>
+            <p class="best"><span>최고 당첨금액 (<em class="best-round">0</em>회 <em class="best-ranking">0등</em>)</span><strong>0</strong><span> 원</span>
+            <p class="pay"><span>총 구입비용</span><strong>0</strong><span> 원</span>
+            <p class="total-count-win"><span>당첨횟수</span><strong>0</strong><span> 게임</span>
             <p class="best-num">
                 <span>최다 매칭 번호</span>
-                <span class="num" data-count="1123회">12</span>
-                <span class="num" data-count="1123회">12</span>
-                <span class="num" data-count="1123회">12</span>
-                <span class="num" data-count="1123회">12</span>
-                <span class="num" data-count="1123회">12</span>
-                <span class="num" data-count="1123회">12</span>
+                <span class="num" data-count="0회">0</span>
+                <span class="num" data-count="0회">0</span>
+                <span class="num" data-count="0회">0</span>
+                <span class="num" data-count="0회">0</span>
+                <span class="num" data-count="0회">0</span>
+                <span class="num" data-count="0회">0</span>
             </p>
         </div>
     </section> 
 
     <section class="wrap-result order-win">
-        <div class="round close">
+        <!-- <div class="round close">
             <dl>
                 <dt>862회</dt>
                 <dd class="money"><strong>1,234,234,234</strong><span>원</span></dd>
@@ -105,7 +108,7 @@
                     <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </section>
 
 </body>

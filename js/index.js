@@ -5,8 +5,9 @@ var TAG_NUM = ['{num1}','{num2}','{num3}','{num4}','{num5}','{num6}'];
 var TAG_BONUS = '{bonus}';
 var TAG_BONUS_COLOR = '{colorBonus}';
 var TAG_YOUR_TOTAL_MONEY = '{yourTotalMoney}'; 
-
 var TEMP_ROUND = '<div class="round close"><dl><dt>' + TAG_ROUND + '회</dt><dd><span class="num ' + TAG_NUM_COLOR[0] + '">' + TAG_NUM[0] + '</span><span class="num ' + TAG_NUM_COLOR[1] + '">' + TAG_NUM[1] + '</span><span class="num ' + TAG_NUM_COLOR[2] + '">' + TAG_NUM[2] + '</span><span class="num ' + TAG_NUM_COLOR[3] + '">' + TAG_NUM[3] + '</span><span class="num ' + TAG_NUM_COLOR[4] + '">' + TAG_NUM[4] + '</span><span class="num ' + TAG_NUM_COLOR[5] + '">' + TAG_NUM[5] + '</span> + <span class="num ' + TAG_BONUS_COLOR + '">' + TAG_BONUS + '</span></dd><dd class="money"><strong>' + TAG_YOUR_TOTAL_MONEY + '</strong><span>원</span></dd></dl></div>';
+
+var NAME_WIN_LIST = 'winList';
 
 // pick 최대 사이즈
 var MAX_SIZE = 100;
@@ -23,7 +24,7 @@ var countWin = [];
 // 역대 당첨번호 목록 정보
 var winList = [];
 
-var payMoney = 0;
+var isProcFinish = false;
 
 // 자동 번호 뽑기 도구
 var randomNumber = {
@@ -68,11 +69,26 @@ var randomNumber = {
 
 // 역대 당첨번호 로드 후 이벤트 정의
 ready(function() {
-    
+   
+    var isStorageAvailable = storageAvailable(); 
+    var isExistData = false;
+
+    if(isStorageAvailable === true){
+        winList = JSON.parse(localStorage.getItem(NAME_WIN_LIST));
+        isExistData = winList ? true : false; 
+    }
+
     // 역대 당첨번호 로드 
-    getJSON('get', 'js/win.json', function(data){
-        winList = data;
-    });
+    if(isExistData === false){
+        getJSON('get', 'js/win.json', function(data){
+            console.log('getJSON');
+            winList = data;
+        
+            if(isStorageAvailable === true){
+                localStorage.setItem(NAME_WIN_LIST, JSON.stringify(data));
+            } 
+        });
+    } 
 
     // 버튼 이벤트
     var button = document.querySelector('button');
@@ -92,7 +108,8 @@ ready(function() {
             alert('1~100 사이의 정수를 입력하세요');
         }
 
-        payMoney = pickSize * winList.length * 1000;
+        winList.totalPickSize = pickSize * winList.length;
+        winList.payMoney = winList.totalPickSize * 1000;
 
         start(pickSize);
     });
@@ -114,6 +131,8 @@ function start(pickSize) {
     winList.bestMoney = 0;
     winList.bestRound = 0;
     winList.bestRanking = 0;
+    winList.totalCountWin = 0;
+    
     for(var wi=0; wi<winList.length; wi++){
         var pickList = pick(pickSize);
         winList[wi].pickList = [];
@@ -164,6 +183,11 @@ function compare(pick, win) {
     }
 
     pick.winRanking = winRanking;
+    
+    if(5 <= pick.winRanking){
+        winList.totalCountWin++;
+    } 
+    
     var moneyIndex = Number(pick.winRanking - 1);
     if(-1 < moneyIndex){
         var yourMoney = win.winMoney[moneyIndex]; 
@@ -209,14 +233,15 @@ function print(isAll){
         document.querySelector('.win-info .best strong').textContent = addComma(winList.bestMoney);
         document.querySelector('.win-info .best .best-round').textContent = addComma(winList.bestRound);
         document.querySelector('.win-info .best .best-ranking').textContent = winList.bestRanking + '등';
-        document.querySelector('.win-info .pay strong').textContent = addComma(payMoney);
-
+        document.querySelector('.win-info .pay strong').textContent = addComma(winList.payMoney);
+        document.querySelector('.win-info .total-count-win strong').textContent = winList.totalCountWin + ' / ' + winList.totalPickSize;
+        
         var bestNum = document.querySelectorAll('.win-info .best-num .num');
-        for(var i=0; i<bestNum.length; i++){
-            bestNum[i].setAttribute('class', 'num');
-            bestNum[i].textContent = countWin[i].winNum;
-            bestNum[i].setAttribute('data-count',countWin[i].count + '회');
-            bestNum[i].classList.add(numberColor(countWin[i].winNum));
+        for(var bni=0; bni<bestNum.length; bni++){
+            bestNum[bni].setAttribute('class', 'num');
+            bestNum[bni].textContent = countWin[bni].winNum;
+            bestNum[bni].setAttribute('data-count',countWin[bni].count + '회');
+            bestNum[bni].classList.add(numberColor(countWin[bni].winNum));
         }
 
         var htmlRound = TEMP_ROUND.replace(TAG_ROUND,round);
@@ -233,15 +258,22 @@ function print(isAll){
         }else{
             htmlRound = htmlRound.replace('round','round win');
         }
-       
+        
+        if(wi === 1){
+            document.querySelector('.win-info').classList.add('on');
+            document.querySelector('.wrap-result').classList.add('on');
+        }
+        
         if(winList[wi].hasWin === false && isAll === false){
             continue;
         }
 
         roundList += htmlRound;
     }
+
     document.querySelector('.wrap-result').innerHTML = '';
     document.querySelector('.wrap-result').insertAdjacentHTML('afterBegin',roundList);
+
 }
 
 // 길이가 6인 정수 배열을 문자열로 변환
@@ -325,4 +357,32 @@ function addComma(str){
         str = str.substring(0, str.length - UNIT_1000000000) + ',' + str.substring(str.length - UNIT_1000000000, str.length);
     }
     return str;
+}
+
+/**
+ * localStorage 사용가능 여부 감지 함수
+ * 
+ * 출처 : MDN
+ */
+function storageAvailable() {
+    try {
+        var storage = window['localStorage'];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    } catch(e) {
+        return e instanceof DOMException && (
+            // Firefox를 제외한 모든 브라우저
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // 코드가 존재하지 않을 수도 있기 때문에 테스트 이름 필드도 있습니다.
+            // Firefox를 제외한 모든 브라우저
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // 이미 저장된 것이있는 경우에만 QuotaExceededError를 확인하십시오.
+            storage.length !== 0;
+    }
 }
