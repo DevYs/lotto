@@ -12,7 +12,7 @@
   
     <!-- <h1>만약 당신이 로또를 1회부터 시작했다면?</h1> -->
 
-    <section>
+    <section class="draw">
         <ul class="notice">
             <li>1회당 100장의 구매제한이 있습니다.</li> 
         </ul>
@@ -21,22 +21,82 @@
             <input type="text" id="pickSize" placeholder="1 ~ 100" />
         </div> 
         
-        <button>확인</button>
+        <button>추첨 시작!</button>
+
+        <div class="win-info">
+            <h2 class="total"><span>총 당첨금액</span><strong>100,222,222,000</strong><span>원</span></h2>
+            <h2 class="best"><span>최고 당첨금액 (<em class="best-round">123</em>회)</span><strong>100,222,222,000</strong><span>원</span></h2>
+        </div>
     </section> 
 
-    <section class="wrap-result">
-        <ul class="print">
-            <li>
-                <h2>862회</h2> 
-                <strong>12 22 32 42 52 62</strong> 
-                <p>
-                    <span></span>
-                </p> 
-            </li> 
-        </ul>
+    <section class="wrap-result order-win">
+        <div class="round close">
+            <dl>
+                <dt>862회</dt>
+                <dd>
+                    <span class="num green">12</span>
+                    <span class="num blue">12</span>
+                    <span class="num red">12</span>
+                    <span class="num dark">12</span>
+                    <span class="num pink">12</span>
+                    <span class="num green">12</span>
+                    <span class="add_bonus"> + </span>
+                    <span class="num green">12</span>
+                </dd>
+                <dd class="money"><strong>1,234,234,234</strong><span>원</span></dd>
+            </dl>
+            <ul>
+                <li>
+                    <div class="number">
+                        <strong>1등</strong>
+                        <span class="num green">12</span>
+                        <span class="num blue">12</span>
+                        <span class="num red">12</span>
+                        <span class="num dark">12</span>
+                        <span class="num pink">12</span>
+                        <span class="num green">12</span>
+                    </div>
+                    <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
+                </li>
+                <li>
+                    <div class="number">
+                        <strong>1등</strong>
+                        <span class="num green">12</span>
+                        <span class="num blue">12</span>
+                        <span class="num red">12</span>
+                        <span class="num dark">12</span>
+                        <span class="num pink">12</span>
+                        <span class="num green">12</span>
+                    </div>
+                    <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
+                </li>
+                <li>
+                    <div class="number">
+                        <strong>1등</strong>
+                        <span class="num green">12</span>
+                        <span class="num blue">12</span>
+                        <span class="num red">12</span>
+                        <span class="num dark">12</span>
+                        <span class="num pink">12</span>
+                        <span class="num green">12</span>
+                    </div>
+                    <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
+                </li>
+                <li>
+                    <div class="number">
+                        <strong>1등</strong>
+                        <span class="num green">12</span>
+                        <span class="num blue">12</span>
+                        <span class="num red">12</span>
+                        <span class="num dark">12</span>
+                        <span class="num pink">12</span>
+                        <span class="num green">12</span>
+                    </div>
+                    <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
+                </li>
+            </ul>
+        </div>
     </section>
-  
-
 
 </body>
 </html>
