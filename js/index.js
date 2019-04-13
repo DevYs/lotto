@@ -21,7 +21,9 @@ var SIZE_ZERO_MSG = '숫자를 입력하세요.';
 var countWin = [];
 
 // 역대 당첨번호 목록 정보
-var winList;
+var winList = [];
+
+var payMoney = 0;
 
 // 자동 번호 뽑기 도구
 var randomNumber = {
@@ -86,10 +88,11 @@ ready(function() {
             return false;
         } 
 
-        var s = Math.abs(pickSize); 
         if(!Number(pickSize)){
             alert('1~100 사이의 정수를 입력하세요');
         }
+
+        payMoney = pickSize * winList.length * 1000;
 
         start(pickSize);
     });
@@ -110,6 +113,7 @@ function start(pickSize) {
     winList.yourAllTotalMoney = 0;
     winList.bestMoney = 0;
     winList.bestRound = 0;
+    winList.bestRanking = 0;
     for(var wi=0; wi<winList.length; wi++){
         var pickList = pick(pickSize);
         winList[wi].pickList = [];
@@ -170,6 +174,7 @@ function compare(pick, win) {
     if(winList.bestMoney < pick.yourMoney){
         winList.bestMoney = pick.yourMoney;
         winList.bestRound = win.round;
+        winList.bestRanking = pick.winRanking;
     }
 
     if(win.hasWin === false && (0 < winRanking && winRanking)) {
@@ -192,16 +197,28 @@ function sortCountWin(){
 
 // 결과 출력
 function print(isAll){
+    // console.log(winList);
+    // console.log(countWin);
     var roundList = ''; 
     for(var wi=winList.length-1; wi>=0; wi--) {
         var round = winList[wi].round;
         var bonus = winList[wi].bonusNum;
         var yourTotalMoney = winList[wi].yourTotalMoney;
 
-        document.querySelector('.win-info .total strong').textContent = toWon(winList.yourAllTotalMoney);
-        document.querySelector('.win-info .best strong').textContent = winList.bestMoney;
-        document.querySelector('.win-info .best .best-round').textContent = winList.bestRound;
-        
+        document.querySelector('.win-info .total strong').textContent = addComma(winList.yourAllTotalMoney);
+        document.querySelector('.win-info .best strong').textContent = addComma(winList.bestMoney);
+        document.querySelector('.win-info .best .best-round').textContent = addComma(winList.bestRound);
+        document.querySelector('.win-info .best .best-ranking').textContent = winList.bestRanking + '등';
+        document.querySelector('.win-info .pay strong').textContent = addComma(payMoney);
+
+        var bestNum = document.querySelectorAll('.win-info .best-num .num');
+        for(var i=0; i<bestNum.length; i++){
+            bestNum[i].setAttribute('class', 'num');
+            bestNum[i].textContent = countWin[i].winNum;
+            bestNum[i].setAttribute('data-count',countWin[i].count + '회');
+            bestNum[i].classList.add(numberColor(countWin[i].winNum));
+        }
+
         var htmlRound = TEMP_ROUND.replace(TAG_ROUND,round);
         for(var ni=0; ni<winList[wi].winNumList.length; ni++){
             var num = winList[wi].winNumList[ni];
@@ -209,7 +226,7 @@ function print(isAll){
         }
 
         htmlRound = htmlRound.replace(TAG_BONUS,bonus).replace(TAG_BONUS_COLOR,numberColor(bonus));
-        htmlRound = htmlRound.replace(TAG_YOUR_TOTAL_MONEY,yourTotalMoney);
+        htmlRound = htmlRound.replace(TAG_YOUR_TOTAL_MONEY,addComma(yourTotalMoney));
 
         if(winList[wi].hasWin === false){
             htmlRound = htmlRound.replace('round','round no-win');
@@ -288,10 +305,24 @@ function numberColor(num){
     return color;
 }
 
-function toWon(str){
+function addComma(str){
     str = str + '';
-    if(3 < str.length){
-        
+    // 1,000 단위
+    var UNIT_1000 = 3; 
+    if(UNIT_1000 < str.length){
+        str = str.substring(0, str.length - UNIT_1000) + ',' + str.substring(str.length - UNIT_1000, str.length);
+    }
+
+    // 1,000,000 단위
+    var UNIT_1000000 = 7; 
+    if(UNIT_1000000 < str.length){
+        str = str.substring(0, str.length - UNIT_1000000) + ',' + str.substring(str.length - UNIT_1000000, str.length);
+    }
+   
+    // 100,000,000 단위
+    var UNIT_1000000000 = 11; 
+    if( UNIT_1000000000< str.length){
+        str = str.substring(0, str.length - UNIT_1000000000) + ',' + str.substring(str.length - UNIT_1000000000, str.length);
     }
     return str;
 }

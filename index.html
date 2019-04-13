@@ -18,14 +18,24 @@
         </ul>
 
         <div class="wrap-input">
-            <input type="text" id="pickSize" placeholder="1 ~ 100" />
+            <input type="text" id="pickSize" placeholder="1회당 구입 게임수 (1 ~ 100)" />
         </div> 
         
         <button>추첨 시작!</button>
 
         <div class="win-info">
-            <h2 class="total"><span>총 당첨금액</span><strong>100,222,222,000</strong><span>원</span></h2>
-            <h2 class="best"><span>최고 당첨금액 (<em class="best-round">123</em>회)</span><strong>100,222,222,000</strong><span>원</span></h2>
+            <p class="total"><span>총 당첨금액</span><strong>100,222,222,000</strong><span>원</span></h2>
+            <p class="best"><span>최고 당첨금액 (<em class="best-round">123</em>회 <em class="best-ranking">0등</em>)</span><strong>100,222,222,000</strong><span>원</span></h2>
+            <p class="pay"><span>총 구입비용</span><strong>100,222,222,000</strong><span>원</span></h2>
+            <p class="best-num">
+                <span>최다 매칭 번호</span>
+                <span class="num" data-count="1123회">12</span>
+                <span class="num" data-count="1123회">12</span>
+                <span class="num" data-count="1123회">12</span>
+                <span class="num" data-count="1123회">12</span>
+                <span class="num" data-count="1123회">12</span>
+                <span class="num" data-count="1123회">12</span>
+            </p>
         </div>
     </section> 
 
@@ -33,6 +43,7 @@
         <div class="round close">
             <dl>
                 <dt>862회</dt>
+                <dd class="money"><strong>1,234,234,234</strong><span>원</span></dd>
                 <dd>
                     <span class="num green">12</span>
                     <span class="num blue">12</span>
@@ -43,7 +54,6 @@
                     <span class="add_bonus"> + </span>
                     <span class="num green">12</span>
                 </dd>
-                <dd class="money"><strong>1,234,234,234</strong><span>원</span></dd>
             </dl>
             <ul>
                 <li>

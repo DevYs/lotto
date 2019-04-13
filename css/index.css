@@ -2,7 +2,8 @@
 
 body,dl,dd,ul,li{margin:0;padding:0;}
 ul{list-style:none;}
-.num{box-sizing:border-box;border-radius:4vw;color:#fff;display:inline-block;font-size:2vw;height:4vw;margin:0 0.1vw;padding-top:1.1vw;text-align:center;width:4vw;}
+.num{box-sizing:border-box;border-radius:4vw;color:#fff;display:inline-block;font-size:2vw;height:4vw;line-height:4vw;margin:0 0.1vw;padding-top:0.3vw;text-align:center;width:4vw;}
+.num:after{color:#000;content:attr(data-count);display:block;font-size:1.2vw;}
 .green{background-color:#f6a800;}
 .blue{background-color:#777;}
 .red{background-color:#f65064;}
@@ -18,9 +19,10 @@ h2{text-align:center;}
 .draw button{display:block;font-size:2vw;height:5vw;margin:2vw auto 0;padding:1vw 2vw;}
 
 .win-info{margin-top:5vw;}
-.win-info h2{margin:0 auto;text-align:right;width:40vw;}
-.win-info h2 strong{display:inline-block;width:14vw;}
-.win-info h2 span:first-child{float:left;}
+.win-info p{font-size:3vw;line-height:3vw;margin:1vw auto;text-align:right;width:70vw;}
+.win-info p strong{display:inline-block;}
+.win-info p span:first-child{float:left;}
+.win-info p .num{margin:0 1vw;}
 
 .wrap-result{box-sizing:border-box;margin-top:2vw;width:100%;}
 .wrap-result .round{overflow:hidden;padding:3vw;}
