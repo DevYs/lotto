@@ -34,7 +34,7 @@ h2{text-align:center;}
 .wrap-result .round dl{overflow:hidden;width:100%;}
 .wrap-result .round dl dt{float:left;font-size:2.5vw;height:4vw;line-height:4.5vw;text-align:right;width:10vw;}
 .wrap-result .round dl dd{float:left;margin-left:1vw;}
-.wrap-result .round dl dd .add_bonus{font-size:2vw;height:4vw;}
+.wrap-result .round dl dd .add-bonus{font-size:2vw;height:4vw;}
 .wrap-result .round dl dd.money{float:right;}
 
 .wrap-result .round ul{margin-top:3vw;width:100%;}

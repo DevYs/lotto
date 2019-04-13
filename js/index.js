@@ -5,7 +5,7 @@ var TAG_NUM = ['{num1}','{num2}','{num3}','{num4}','{num5}','{num6}'];
 var TAG_BONUS = '{bonus}';
 var TAG_BONUS_COLOR = '{colorBonus}';
 var TAG_YOUR_TOTAL_MONEY = '{yourTotalMoney}'; 
-var TEMP_ROUND = '<div class="round close"><dl><dt>' + TAG_ROUND + '회</dt><dd><span class="num ' + TAG_NUM_COLOR[0] + '">' + TAG_NUM[0] + '</span><span class="num ' + TAG_NUM_COLOR[1] + '">' + TAG_NUM[1] + '</span><span class="num ' + TAG_NUM_COLOR[2] + '">' + TAG_NUM[2] + '</span><span class="num ' + TAG_NUM_COLOR[3] + '">' + TAG_NUM[3] + '</span><span class="num ' + TAG_NUM_COLOR[4] + '">' + TAG_NUM[4] + '</span><span class="num ' + TAG_NUM_COLOR[5] + '">' + TAG_NUM[5] + '</span> + <span class="num ' + TAG_BONUS_COLOR + '">' + TAG_BONUS + '</span></dd><dd class="money"><strong>' + TAG_YOUR_TOTAL_MONEY + '</strong><span>원</span></dd></dl></div>';
+var TEMP_ROUND = '<div class="round close"><dl><dt>' + TAG_ROUND + '회</dt><dd><span class="num ' + TAG_NUM_COLOR[0] + '">' + TAG_NUM[0] + '</span><span class="num ' + TAG_NUM_COLOR[1] + '">' + TAG_NUM[1] + '</span><span class="num ' + TAG_NUM_COLOR[2] + '">' + TAG_NUM[2] + '</span><span class="num ' + TAG_NUM_COLOR[3] + '">' + TAG_NUM[3] + '</span><span class="num ' + TAG_NUM_COLOR[4] + '">' + TAG_NUM[4] + '</span><span class="num ' + TAG_NUM_COLOR[5] + '">' + TAG_NUM[5] + '</span> <span class="add-bonus">+</span> <span class="num ' + TAG_BONUS_COLOR + '">' + TAG_BONUS + '</span></dd><dd class="money"><strong>' + TAG_YOUR_TOTAL_MONEY + '</strong><span>원</span></dd></dl></div>';
 
 var NAME_WIN_LIST = 'winList';
 
