@@ -138,7 +138,7 @@ ready(function() {
 });
 
 function toScrollSmooth(selector){
-    document.querySelector(selector).scrollIntoView({behavior: 'smooth'});
+    // document.querySelector(selector).scrollIntoView({behavior: 'smooth'});
 }
 
 function allRankingButtonHide(){
