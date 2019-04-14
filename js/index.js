@@ -95,11 +95,6 @@ ready(function() {
     // 버튼 이벤트
     var button = document.querySelector('button');
     button.addEventListener('click', function() {
-        button.disabled = true;
-        setTimeout(function(){
-            button.disabled = false;
-        },3000);
-
         toggleNoResultWinMsg(false);
         setRankingButton(5);
         toScrollSmooth('.win-info'); 
