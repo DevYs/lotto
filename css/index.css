@@ -1,4 +1,5 @@
 @charset 'utf-8';
+html{scroll-behavior:smooth;}
 
 body,dl,dd,ul,li{margin:0;padding:0;}
 
@@ -9,6 +10,7 @@ body,dl,dd,ul,li{margin:0;padding:0;}
 .red{background-color:#f65064;}
 .dark{background-color:#535869;}
 .pink{background-color:#1acb97;}
+.black{background-color:rgba(0,0,0,0);color:#000;}
 
 h1{background-color:#414141;color:#fff;font-size:3.2vw;height:15vw;line-height:15vw;margin:10vw auto 5vw;text-align:center;width:70vw;}
 h2{text-align:center;}
@@ -25,11 +27,24 @@ h2{text-align:center;}
 .win-info p span:first-child{float:left;}
 .win-info p .num{margin:0 1vw;}
 
-.wrap-result{box-sizing:border-box;height:0;margin-top:2vw;opacity:0;transition:opacity 1s;width:100%;}
+.wrap-result{box-sizing:border-box;height:0;margin-top:2vw;overflow:hidden;opacity:0;transition:opacity 1s;width:100%;}
 .wrap-result.on{height:auto;opacity:1;}
-.wrap-result .round{overflow:hidden;padding:3vw;}
-.wrap-result .round:nth-child(odd){background-color:#eee;}
-.wrap-result .round:nth-child(even){background-color:#fff;}
+/* .wrap-result{box-sizing:border-box;margin-top:2vw;overflow:hidden;transition:opacity 1s;width:100%;}
+.wrap-result.on{height:auto;opacity:1;} */
+
+.wrap-result .no-result-win{background-color:#eee;display:none;font-size:4vw;margin:20vw 0;padding:2vw;text-align:center;width:100%;}
+.wrap-result .no-result-win.show{display:block;}
+
+.wrap-result .ranking-button{box-sizing:border-box;background-color:#eee;font-size:2vw;margin:0 auto 5vw;padding:2vw 0;text-align:center;width:40vw;}
+.wrap-result .ranking-button a{font-weight:900;color:#fff;text-decoration:none;}
+.wrap-result .ranking-button a.on{color:#000;}
+
+.wrap-result h3{font-size:2vw;text-align:center;}
+.wrap-result h3 a{color:#000;text-decoration:none;}
+
+.wrap-result .round{border-bottom:2px solid #eee; overflow:hidden;padding:3vw;}
+/* .wrap-result .round:nth-child(odd){background-color:#eee;}
+.wrap-result .round:nth-child(even){background-color:#fff;} */
 .wrap-result .round:last-child{margin-bottom:0;}
 .wrap-result .round dl{overflow:hidden;width:100%;}
 .wrap-result .round dl dt{float:left;font-size:2.5vw;height:4vw;line-height:4.5vw;text-align:right;width:10vw;}
@@ -38,11 +53,11 @@ h2{text-align:center;}
 .wrap-result .round dl dd.money{float:right;}
 
 .wrap-result .round ul{margin-top:3vw;width:100%;}
-.wrap-result .round.close ul{height:0;margin:0;overflow:hidden;}
+/* .wrap-result .round.close ul{height:0;margin:0;overflow:hidden;} */
 .wrap-result .round ul li{margin-bottom:1vw;overflow:hidden;padding-left:3.6vw;}
 .wrap-result .round ul li:last-child{margin-bottom:0;}
 .wrap-result .round ul li .number{float:left;margin-left:3vw;}
-.wrap-result .round ul li .number .num{font-size:1.5vw;height:3vw;padding-top:0.8vw;width:3vw;}
+.wrap-result .round ul li .number .num{font-size:1.5vw;height:3vw;line-height:3.4vw;padding-top:0vw;width:3vw;}
 .wrap-result .round ul li .number strong{font-size:2vw;margin-right:1vw;} 
 .wrap-result .round ul li .money{float:right;}
 .wrap-result .round ul li .money span{font-size:1.5vw;}

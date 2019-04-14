@@ -17,8 +17,8 @@
             <li>이 게임은 1회(2002년 12월 7일)부터 <class="total">현재</class>까지 로또를 <br /> 규칙적으로 구입했을 경우를 시뮬레이션합니다.</li>
             <li>1회당 1~100장의 구매제한이 있습니다.</li> 
             <li>당첨금액은 실제 당첨금을 기준으로 계산됩니다.</li> 
-            <li>이 게임에서 당첨이되어도 당첨금 수령은 불가능합니다.</li> 
-            <li>이월된 경우 당첨금액에 계산되지 않습니다.<br />(실제 당첨이 된 경우를 가정함으로...)</li>
+            <li>이 게임에서 당첨이되어도 당첨금 수령은 절대 불가능합니다.</li> 
+            <li>이월된 경우 당첨금액에 계산되지 않습니다.<br />(실제 당첨이 된 사실이 아니므로...)</li>
         </ul>
 
         <div class="wrap-input">
@@ -29,8 +29,9 @@
 
         <div class="win-info">
             <p class="total"><span>총 당첨금액</span><strong>0</strong><span> 원</span>
-            <p class="best"><span>최고 당첨금액 (<em class="best-round">0</em>회 <em class="best-ranking">0등</em>)</span><strong>0</strong><span> 원</span>
             <p class="pay"><span>총 구매비용</span><strong>0</strong><span> 원</span>
+            <p class="profit-loss"><span>총 손익</span><strong>0</strong><span> 원</span>
+            <p class="best"><span>최고 당첨금액 (<em class="best-round">0</em>회 <em class="best-ranking">0등</em>)</span><strong>0</strong><span> 원</span>
             <p class="total-count-win"><span>당첨횟수</span><strong>0</strong><span> 게임</span>
             <p class="best-num">
                 <span>최다 매칭 번호</span>
@@ -44,72 +45,86 @@
         </div>
     </section> 
 
-    <section class="wrap-result order-win">
-        <!-- <div class="round close">
-            <dl>
-                <dt>862회</dt>
-                <dd class="money"><strong>1,234,234,234</strong><span>원</span></dd>
-                <dd>
-                    <span class="num green">12</span>
-                    <span class="num blue">12</span>
-                    <span class="num red">12</span>
-                    <span class="num dark">12</span>
-                    <span class="num pink">12</span>
-                    <span class="num green">12</span>
-                    <span class="add_bonus"> + </span>
-                    <span class="num green">12</span>
-                </dd>
-            </dl>
-            <ul>
-                <li>
-                    <div class="number">
-                        <strong>1등</strong>
+    <section class="wrap-result">
+        <div class="ranking-button">
+            <a href="#" data-ranking="1">1등</a>
+            <a href="#" data-ranking="2">2등</a>
+            <a href="#" data-ranking="3">3등</a>
+            <a href="#" data-ranking="4">4등</a>
+            <a class="on" href="#" data-ranking="5">5등</a>
+            이상 결과 보기
+        </div> 
+        <div class="no-result-win">
+            <strong>당첨 결과가 없습니다.</strong>
+        </div>
+        <div class="all"></div> 
+        <!-- <div class="all"> 
+            <div class="round">
+                <dl>
+                    <dt>862회</dt>
+                    <dd class="money"><strong>1,234,234,234</strong><span>원</span></dd>
+                    <dd>
                         <span class="num green">12</span>
                         <span class="num blue">12</span>
                         <span class="num red">12</span>
                         <span class="num dark">12</span>
                         <span class="num pink">12</span>
                         <span class="num green">12</span>
-                    </div>
-                    <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
-                </li>
-                <li>
-                    <div class="number">
-                        <strong>1등</strong>
+                        <span class="add_bonus"> + </span>
                         <span class="num green">12</span>
-                        <span class="num blue">12</span>
-                        <span class="num red">12</span>
-                        <span class="num dark">12</span>
-                        <span class="num pink">12</span>
-                        <span class="num green">12</span>
-                    </div>
-                    <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
-                </li>
-                <li>
-                    <div class="number">
-                        <strong>1등</strong>
-                        <span class="num green">12</span>
-                        <span class="num blue">12</span>
-                        <span class="num red">12</span>
-                        <span class="num dark">12</span>
-                        <span class="num pink">12</span>
-                        <span class="num green">12</span>
-                    </div>
-                    <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
-                </li>
-                <li>
-                    <div class="number">
-                        <strong>1등</strong>
-                        <span class="num green">12</span>
-                        <span class="num blue">12</span>
-                        <span class="num red">12</span>
-                        <span class="num dark">12</span>
-                        <span class="num pink">12</span>
-                        <span class="num green">12</span>
-                    </div>
-                    <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
-                </li>
-            </ul>
+                    </dd>
+                </dl>
+                <ul>
+                    <li>
+                        <div class="number">
+                            <strong>1등</strong>
+                            <span class="num green">12</span>
+                            <span class="num blue">12</span>
+                            <span class="num red">12</span>
+                            <span class="num dark">12</span>
+                            <span class="num pink">12</span>
+                            <span class="num green">12</span>
+                        </div>
+                        <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
+                    </li>
+                    <li>
+                        <div class="number">
+                            <strong>1등</strong>
+                            <span class="num green">12</span>
+                            <span class="num blue">12</span>
+                            <span class="num red">12</span>
+                            <span class="num dark">12</span>
+                            <span class="num pink">12</span>
+                            <span class="num green">12</span>
+                        </div>
+                        <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
+                    </li>
+                    <li>
+                        <div class="number">
+                            <strong>1등</strong>
+                            <span class="num green">12</span>
+                            <span class="num blue">12</span>
+                            <span class="num red">12</span>
+                            <span class="num dark">12</span>
+                            <span class="num pink">12</span>
+                            <span class="num green">12</span>
+                        </div>
+                        <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
+                    </li>
+                    <li>
+                        <div class="number">
+                            <strong>1등</strong>
+                            <span class="num green">12</span>
+                            <span class="num blue">12</span>
+                            <span class="num red">12</span>
+                            <span class="num dark">12</span>
+                            <span class="num pink">12</span>
+                            <span class="num green">12</span>
+                        </div>
+                        <div class="money"><strong>1,234,234,234</strong><span>원</span></div>
+                    </li>
+                </ul>
+            </div>
         </div> -->
     </section>
 

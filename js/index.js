@@ -5,7 +5,13 @@ var TAG_NUM = ['{num1}','{num2}','{num3}','{num4}','{num5}','{num6}'];
 var TAG_BONUS = '{bonus}';
 var TAG_BONUS_COLOR = '{colorBonus}';
 var TAG_YOUR_TOTAL_MONEY = '{yourTotalMoney}'; 
-var TEMP_ROUND = '<div class="round close"><dl><dt>' + TAG_ROUND + '회</dt><dd><span class="num ' + TAG_NUM_COLOR[0] + '">' + TAG_NUM[0] + '</span><span class="num ' + TAG_NUM_COLOR[1] + '">' + TAG_NUM[1] + '</span><span class="num ' + TAG_NUM_COLOR[2] + '">' + TAG_NUM[2] + '</span><span class="num ' + TAG_NUM_COLOR[3] + '">' + TAG_NUM[3] + '</span><span class="num ' + TAG_NUM_COLOR[4] + '">' + TAG_NUM[4] + '</span><span class="num ' + TAG_NUM_COLOR[5] + '">' + TAG_NUM[5] + '</span> <span class="add-bonus">+</span> <span class="num ' + TAG_BONUS_COLOR + '">' + TAG_BONUS + '</span></dd><dd class="money"><strong>' + TAG_YOUR_TOTAL_MONEY + '</strong><span>원</span></dd></dl></div>';
+var TAG_WIN_PICK_LIST = '{winPickList}';
+var TAG_WIN_BEST_RANKING = '{winBestRanking}';
+var TEMP_ROUND = '<div class="round" data-best-ranking="' + TAG_WIN_BEST_RANKING + '"><dl><dt>' + TAG_ROUND + '회</dt><dd><span class="num ' + TAG_NUM_COLOR[0] + '">' + TAG_NUM[0] + '</span><span class="num ' + TAG_NUM_COLOR[1] + '">' + TAG_NUM[1] + '</span><span class="num ' + TAG_NUM_COLOR[2] + '">' + TAG_NUM[2] + '</span><span class="num ' + TAG_NUM_COLOR[3] + '">' + TAG_NUM[3] + '</span><span class="num ' + TAG_NUM_COLOR[4] + '">' + TAG_NUM[4] + '</span><span class="num ' + TAG_NUM_COLOR[5] + '">' + TAG_NUM[5] + '</span> <span class="add-bonus">+</span> <span class="num ' + TAG_BONUS_COLOR + '">' + TAG_BONUS + '</span></dd><dd class="money"><strong>' + TAG_YOUR_TOTAL_MONEY + '</strong><span>원</span></dd></dl><ul>' + TAG_WIN_PICK_LIST + '</ul></div>';
+
+var TAG_WIN_MONEY = '{winMoney}';
+var TAG_WIN_RANKING = '{winRanking}'; 
+var TEMP_WIN_PICK = '<li><div class="number"><strong>' + TAG_WIN_RANKING + '등</strong><span class="num ' + TAG_NUM_COLOR[0] + '">' + TAG_NUM[0] + '</span><span class="num ' + TAG_NUM_COLOR[1] + '">' + TAG_NUM[1] + '</span><span class="num ' + TAG_NUM_COLOR[2] + '">' + TAG_NUM[2] + '</span><span class="num ' + TAG_NUM_COLOR[3] + '">' + TAG_NUM[3] + '</span><span class="num ' + TAG_NUM_COLOR[4] + '">' + TAG_NUM[4] + '</span><span class="num ' + TAG_NUM_COLOR[5] + '">' + TAG_NUM[5] + '</span></div><div class="money"><strong>' + TAG_WIN_MONEY + '</strong><span>원</span></div></li>';
 
 var NAME_WIN_LIST = 'winList';
 
@@ -23,8 +29,6 @@ var countWin = [];
 
 // 역대 당첨번호 목록 정보
 var winList = [];
-
-var isProcFinish = false;
 
 // 자동 번호 뽑기 도구
 var randomNumber = {
@@ -69,7 +73,6 @@ var randomNumber = {
 
 // 역대 당첨번호 로드 후 이벤트 정의
 ready(function() {
-   
     var isStorageAvailable = storageAvailable(); 
     var isExistData = false;
 
@@ -81,7 +84,6 @@ ready(function() {
     // 역대 당첨번호 로드 
     if(isExistData === false){
         getJSON('get', 'js/win.json', function(data){
-            console.log('getJSON');
             winList = data;
         
             if(isStorageAvailable === true){
@@ -93,6 +95,15 @@ ready(function() {
     // 버튼 이벤트
     var button = document.querySelector('button');
     button.addEventListener('click', function() {
+        button.disabled = true;
+        setTimeout(function(){
+            button.disabled = false;
+        },3000);
+
+        toggleNoResultWinMsg(false);
+        setRankingButton(5);
+        toScrollSmooth('.win-info'); 
+
         var pickSize = document.querySelector('#pickSize').value;
         if(pickSize.length < 1) {
             alert(SIZE_ZERO_MSG);
@@ -113,7 +124,61 @@ ready(function() {
 
         start(pickSize);
     });
+
+    var rankingButtonList = document.querySelectorAll('.ranking-button a');
+    for(var i=0; i<rankingButtonList.length; i++){
+        rankingButtonList[i].addEventListener('click', function(e){
+            e.preventDefault();
+            toScrollSmooth('.ranking-button');  
+            var ranking = this.getAttribute('data-ranking');
+            setRankingButton(ranking);
+            hideRound(ranking);
+        });
+    }
 });
+
+function toScrollSmooth(selector){
+    document.querySelector(selector).scrollIntoView({behavior: 'smooth'});
+}
+
+function allRankingButtonHide(){
+    var rankingButtonList = document.querySelectorAll('.ranking-button a');
+    for(var j=0; j<rankingButtonList.length; j++){
+        rankingButtonList[j].classList.remove('on');
+    }
+}
+
+function setRankingButton(ranking){
+    allRankingButtonHide();
+    document.querySelectorAll('.ranking-button a')[ranking - 1].classList.add('on');
+}
+
+function hideRound(ranking){
+    var roundList = document.querySelectorAll('.round');
+    var blockRoundCount = 0; 
+
+    for(var i=0; i<roundList.length; i++) {
+        var round = roundList[i]; 
+        var roundRanking = round.getAttribute('data-best-ranking');
+        if(ranking < roundRanking){
+            round.style.display = 'none';
+        }else{
+            round.style.display = 'block';
+            blockRoundCount++;
+        }
+    }
+
+    toggleNoResultWinMsg(blockRoundCount === 0);
+}
+
+function toggleNoResultWinMsg(isShow){
+    var noResultWinMsg = document.querySelector('.wrap-result .no-result-win');
+    if(isShow){
+        noResultWinMsg.classList.add('show');
+    }else{
+        noResultWinMsg.classList.remove('show');
+    }
+}
 
 // 1~45 매칭 횟수 초기화
 function initCountWin() {
@@ -130,7 +195,7 @@ function start(pickSize) {
     winList.yourAllTotalMoney = 0;
     winList.bestMoney = 0;
     winList.bestRound = 0;
-    winList.bestRanking = 0;
+    winList.bestRanking = 6;
     winList.totalCountWin = 0;
     
     for(var wi=0; wi<winList.length; wi++){
@@ -138,23 +203,24 @@ function start(pickSize) {
         winList[wi].pickList = [];
         winList[wi].hasWin = false;
         winList[wi].yourTotalMoney = 0; 
+        winList[wi].winBestRanking = 9;
         for(var pi=0; pi<pickList.length; pi++){
             compare(pickList[pi], winList[wi]);
         }
         winList.yourAllTotalMoney += winList[wi].yourTotalMoney;
     }
-    
-    sortCountWin();  
-   
-    print(false); 
+  
+    sortCountWin(); 
+
+    print(false);
 }
 
 // 길이가 6인 정수배열을 서로 비교하여 매칭되는 숫자를 수집
 function compare(pick, win) {
     var pickNumbers = pick.numbers;
-    var winNumbers = win.winNumList; 
-    var bonus = win.bonusNum; 
-    var winRanking = 0; 
+    var winNumbers = win.winNumList;
+    var bonus = win.bonusNum;
+    var winRanking = 0;
     pick.winNums = [];
     pick.yourMoney = 0;
 
@@ -182,12 +248,15 @@ function compare(pick, win) {
         } 
     }
 
+    if(0 < winRanking && winRanking < win.winBestRanking){
+        win.winBestRanking = winRanking;
+    }
+
     pick.winRanking = winRanking;
-    
     if(5 <= pick.winRanking){
         winList.totalCountWin++;
     } 
-    
+
     var moneyIndex = Number(pick.winRanking - 1);
     if(-1 < moneyIndex){
         var yourMoney = win.winMoney[moneyIndex]; 
@@ -204,8 +273,10 @@ function compare(pick, win) {
     if(win.hasWin === false && (0 < winRanking && winRanking)) {
         win.hasWin = true;
     } 
-    
-    win.pickList.push(pick);
+   
+    if(0 < pick.winRanking){
+        win.pickList.push(pick);
+    }
 }
 
 // 1~45 매칭 횟수 상위 6개만 남기고 절삭 후 번호 순서대로 정렬 
@@ -221,43 +292,58 @@ function sortCountWin(){
 
 // 결과 출력
 function print(isAll){
-    // console.log(winList);
-    // console.log(countWin);
-    var roundList = ''; 
+    var roundListAll = '';
+
     for(var wi=winList.length-1; wi>=0; wi--) {
         var round = winList[wi].round;
         var bonus = winList[wi].bonusNum;
         var yourTotalMoney = winList[wi].yourTotalMoney;
+        var winBestRanking = winList[wi].winBestRanking;
 
         document.querySelector('.win-info .total strong').textContent = addComma(winList.yourAllTotalMoney);
         document.querySelector('.win-info .best strong').textContent = addComma(winList.bestMoney);
         document.querySelector('.win-info .best .best-round').textContent = addComma(winList.bestRound);
         document.querySelector('.win-info .best .best-ranking').textContent = winList.bestRanking + '등';
         document.querySelector('.win-info .pay strong').textContent = addComma(winList.payMoney);
+        document.querySelector('.win-info .profit-loss strong').textContent = addComma(winList.yourAllTotalMoney - winList.payMoney);
         document.querySelector('.win-info .total-count-win strong').textContent = winList.totalCountWin + ' / ' + winList.totalPickSize;
         
         var bestNum = document.querySelectorAll('.win-info .best-num .num');
         for(var bni=0; bni<bestNum.length; bni++){
             bestNum[bni].setAttribute('class', 'num');
             bestNum[bni].textContent = countWin[bni].winNum;
-            bestNum[bni].setAttribute('data-count',countWin[bni].count + '회');
+            bestNum[bni].setAttribute('data-count', countWin[bni].count + '회');
             bestNum[bni].classList.add(numberColor(countWin[bni].winNum));
         }
 
-        var htmlRound = TEMP_ROUND.replace(TAG_ROUND,round);
+        var htmlRound = TEMP_ROUND.replace(TAG_ROUND, round);
         for(var ni=0; ni<winList[wi].winNumList.length; ni++){
             var num = winList[wi].winNumList[ni];
-            htmlRound = htmlRound.replace(TAG_NUM[ni],num).replace(TAG_NUM_COLOR[ni],numberColor(num));
+            htmlRound = htmlRound.replace(TAG_NUM[ni], num).replace(TAG_NUM_COLOR[ni], numberColor(num));
+        }
+        htmlRound = htmlRound.replace(TAG_BONUS, bonus).replace(TAG_BONUS_COLOR, numberColor(bonus)).replace(TAG_YOUR_TOTAL_MONEY, addComma(yourTotalMoney)).replace(TAG_WIN_BEST_RANKING, winBestRanking);
+
+        var htmlAllWinPick = '';
+        for(var pli=0; pli<winList[wi].pickList.length; pli++){
+            var winRanking = winList[wi].pickList[pli].winRanking;
+           
+            var htmlWinPick = TEMP_WIN_PICK;
+            for(var pi=0; pi<winList[wi].pickList[pli].numbers.length; pi++){
+                var pickWinNum = winList[wi].pickList[pli].numbers[pi];
+                
+                htmlWinPick = htmlWinPick.replace(TAG_NUM[pi], pickWinNum);
+                if(-1 < winList[wi].pickList[pli].winNums.indexOf(pickWinNum)){
+                    htmlWinPick = htmlWinPick.replace(TAG_NUM_COLOR[pi], numberColor(pickWinNum));
+                } else {
+                    htmlWinPick = htmlWinPick.replace(TAG_NUM_COLOR[pi], 'black');
+                }
+            }
+            var winMoney = winList[wi].winMoney[winRanking - 1];
+            htmlWinPick = htmlWinPick.replace(TAG_WIN_RANKING, winRanking).replace(TAG_WIN_MONEY, addComma(winMoney));
+            htmlAllWinPick += htmlWinPick;
         }
 
-        htmlRound = htmlRound.replace(TAG_BONUS,bonus).replace(TAG_BONUS_COLOR,numberColor(bonus));
-        htmlRound = htmlRound.replace(TAG_YOUR_TOTAL_MONEY,addComma(yourTotalMoney));
-
-        if(winList[wi].hasWin === false){
-            htmlRound = htmlRound.replace('round','round no-win');
-        }else{
-            htmlRound = htmlRound.replace('round','round win');
-        }
+        htmlRound = htmlRound.replace(TAG_WIN_PICK_LIST, htmlAllWinPick);      
         
         if(wi === 1){
             document.querySelector('.win-info').classList.add('on');
@@ -268,12 +354,11 @@ function print(isAll){
             continue;
         }
 
-        roundList += htmlRound;
+        roundListAll += htmlRound;
     }
 
-    document.querySelector('.wrap-result').innerHTML = '';
-    document.querySelector('.wrap-result').insertAdjacentHTML('afterBegin',roundList);
-
+    document.querySelector('.wrap-result .all').innerHTML = '';
+    document.querySelector('.wrap-result .all').insertAdjacentHTML('afterBegin',roundListAll);
 }
 
 // 길이가 6인 정수 배열을 문자열로 변환
@@ -337,26 +422,38 @@ function numberColor(num){
     return color;
 }
 
-function addComma(str){
-    str = str + '';
+// 문자열을 화폐 '원'으로 표현
+function addComma(value){
+    var money = '0'; 
+    money = value + '';
+    
+    if(value < 0){
+        money = money.substring(1, money.length);
+    }    
+    
     // 1,000 단위
     var UNIT_1000 = 3; 
-    if(UNIT_1000 < str.length){
-        str = str.substring(0, str.length - UNIT_1000) + ',' + str.substring(str.length - UNIT_1000, str.length);
+    if(UNIT_1000 < money.length){
+        money = money.substring(0, money.length - UNIT_1000) + ',' + money.substring(money.length - UNIT_1000, money.length);
     }
 
     // 1,000,000 단위
     var UNIT_1000000 = 7; 
-    if(UNIT_1000000 < str.length){
-        str = str.substring(0, str.length - UNIT_1000000) + ',' + str.substring(str.length - UNIT_1000000, str.length);
+    if(UNIT_1000000 < money.length){
+        money = money.substring(0, money.length - UNIT_1000000) + ',' + money.substring(money.length - UNIT_1000000, money.length);
     }
    
     // 100,000,000 단위
     var UNIT_1000000000 = 11; 
-    if( UNIT_1000000000< str.length){
-        str = str.substring(0, str.length - UNIT_1000000000) + ',' + str.substring(str.length - UNIT_1000000000, str.length);
+    if( UNIT_1000000000< money.length){
+        money = money.substring(0, money.length - UNIT_1000000000) + ',' + money.substring(money.length - UNIT_1000000000, money.length);
     }
-    return str;
+
+    if(value < 0){
+        money = '-' + money;
+    }
+
+    return money;
 }
 
 /**
