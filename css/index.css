@@ -3,7 +3,7 @@ html{scroll-behavior:smooth;}
 
 body,dl,dd,ul,li{margin:0;padding:0;}
 
-.num{box-sizing:border-box;border-radius:4vw;color:#fff;display:inline-block;font-size:2vw;height:4vw;line-height:4vw;margin:0 0.1vw;padding-top:0.3vw;text-align:center;width:4vw;}
+.num{box-sizing:border-box;border-radius:4vw;color:#fff;display:inline-block;font-size:2vw;font-weight:700;height:4vw;line-height:4vw;margin:0 0.3vw;padding-top:0.3vw;text-align:center;width:4vw;}
 .num:after{color:#000;content:attr(data-count);display:block;font-size:1.2vw;}
 .green{background-color:#f6a800;}
 .blue{background-color:#777;}
@@ -36,7 +36,7 @@ h2{text-align:center;}
 .wrap-result .no-result-win.show{display:block;}
 
 .wrap-result .ranking-button{box-sizing:border-box;background-color:#eee;font-size:2vw;margin:0 auto 5vw;padding:2vw 0;text-align:center;width:40vw;}
-.wrap-result .ranking-button a{font-weight:900;color:#fff;text-decoration:none;}
+.wrap-result .ranking-button a{font-weight:900;color:#fff;margin:0 1vw;text-decoration:none;}
 .wrap-result .ranking-button a.on{color:#000;}
 
 .wrap-result h3{font-size:2vw;text-align:center;}
@@ -66,3 +66,31 @@ h2{text-align:center;}
 .money{height:4vw;line-height:4.5vw;}
 .money span{font-size:2.5vw;}
 .money strong{font-size:3vw;margin-left:1vw;}
+
+@media (max-width:1024px) {
+    h1{background-color:#414141;color:#fff;font-size:4vw;height:15vw;line-height:15vw;margin:10vw auto 5vw;text-align:center;width:80vw;}
+
+    .num{border-radius:6vw;font-size:3vw;height:6vw;line-height:7vw;margin:0 0.1vw;text-align:center;width:6vw;}
+    .num:after{color:#000;content:attr(data-count);display:block;font-size:2.9vw;}
+
+    .draw button{font-size:4vw;height:10vw;margin:2vw auto 0;padding:2vw 5vw;}
+    .draw .notice{font-size:3.2vw;}
+    .draw .wrap-input input{font-size:4vw;}
+
+    .win-info p{font-size:4vw;line-height:4vw;width:80vw;}
+
+    .wrap-result .ranking-button{font-size:4vw;margin:0 auto 5vw;padding:2vw 0;text-align:center;width:80vw;}
+    
+    .wrap-result .round dl dt{font-size:4vw;height:6vw;line-height:7.5vw;width:12vw;}
+    .wrap-result .round dl dd{margin-left:1vw;}
+    .wrap-result .round dl dd .add-bonus{font-size:4vw;height:6vw;}
+
+    .wrap-result .round ul li{margin-bottom:1vw;padding-left:4.6vw;}
+    .wrap-result .round ul li .number{margin-left:3vw;}
+    .wrap-result .round ul li .number .num{font-size:3vw;height:6vw;line-height:7vw;padding-top:0vw;width:6vw;}
+    .wrap-result .round ul li .number strong{font-size:3vw;margin-right:1vw;} 
+    .wrap-result .round ul li .money{float:right;}
+    .wrap-result .round ul li .money span{font-size:2.5vw;}
+    .wrap-result .round ul li .money strong{font-size:3vw;}
+
+}
