@@ -21,6 +21,8 @@ var MAX_SIZE = 100;
 // pick 최대 사이즈를 초과한 값을 입력할 경우 메세지
 var MAX_SIZE_EXCESS_MSG = '1회당 구매한도는 ' + MAX_SIZE + '장입니다.';
 
+var IN_PROGRESS_MSG = '현재 추첨을 처리중입니다...';
+
 // 미입력시 메세지
 var SIZE_ZERO_MSG = '숫자를 입력하세요.';
 
@@ -71,6 +73,9 @@ var randomNumber = {
     }
 }
 
+// 처리중인지 여부
+var isInProgress = false;
+
 // 역대 당첨번호 로드 후 이벤트 정의
 ready(function() {
     var isStorageAvailable = storageAvailable(); 
@@ -95,6 +100,13 @@ ready(function() {
     // 버튼 이벤트
     var button = document.querySelector('button');
     button.addEventListener('click', function() {
+       
+        if(isInProgress === true){
+            alert(IN_PROGRESS_MSG);
+            return false;
+        }
+        isInProgress = true;
+        
         toggleNoResultWinMsg(false);
         setRankingButton(5);
         toScrollSmooth('.win-info'); 
@@ -354,6 +366,8 @@ function print(isAll){
 
     document.querySelector('.wrap-result .all').innerHTML = '';
     document.querySelector('.wrap-result .all').insertAdjacentHTML('afterBegin',roundListAll);
+
+    isInProgress = false;
 }
 
 // 길이가 6인 정수 배열을 문자열로 변환
