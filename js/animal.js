@@ -1,6 +1,6 @@
 ready(function() {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://wearecyw.iptime.org:8082/animal/post');
+    xhr.open('POST', 'https://wearecyw.iptime.org:8082/animal/post');
     xhr.send();
 
     xhr.addEventListener('load', function(e) {
